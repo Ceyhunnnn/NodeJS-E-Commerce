@@ -9,7 +9,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   }
   return res.status(500).json({
     success: false,
-    message: "Servis tarafından kaynaklı bir hata oluştu",
+    message: "Error from server, Please try again",
   });
 };
 

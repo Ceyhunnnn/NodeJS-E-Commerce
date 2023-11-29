@@ -7,7 +7,7 @@ const register = async (req, res) => {
   const { email } = req.body;
   const checkUser = await user.findOne({ email });
   if (checkUser) {
-    throw new APIError("E-mail already in use", 401);
+    throw new APIError("E-mail already in use", 400);
   }
   req.body.password = await bcrypt.hash(req.body.password, 10);
   const newUser = new user(req.body);
