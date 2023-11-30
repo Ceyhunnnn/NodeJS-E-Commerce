@@ -30,4 +30,7 @@ const login = async (req, res) => {
   createToken(loginUser, res);
 };
 
-module.exports = { register, login };
+const me = async (req, res) => {
+  return new Response(req.user, "Success").success(res);
+};
+module.exports = { register, login, me };
