@@ -13,7 +13,7 @@ const register = async (req, res) => {
   const newUser = new user(req.body);
   await newUser
     .save()
-    .then((data) => new Response(data, "Account Created!").created(res))
+    .then((data) => new Response(null, "Account Created!").created(res))
     .catch(() => new APIError("Account could not be created", 400));
 };
 
