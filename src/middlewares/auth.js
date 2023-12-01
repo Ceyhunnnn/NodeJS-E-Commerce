@@ -28,7 +28,9 @@ const checkToken = async (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   await jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
     if (err) throw new APIError("Invavlid Token", 401);
-    const userData = await user.findById(decoded.sub).select("_id name email");
+    const userData = await user
+      .findById(decoded.sub)
+      .select("_id name lastName email");
     if (!userData) throw new APIError("Invalid Token");
     req.user = userData;
     next();
