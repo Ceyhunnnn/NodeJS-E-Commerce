@@ -30,7 +30,7 @@ const checkToken = async (req, res, next) => {
     if (err) throw new APIError("Invavlid Token", 401);
     const userData = await user
       .findById(decoded.sub)
-      .select("_id name lastName email");
+      .select("_id name lastName email image");
     if (!userData) throw new APIError("Invalid Token");
     req.user = userData;
     next();
