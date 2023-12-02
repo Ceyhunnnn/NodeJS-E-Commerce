@@ -18,4 +18,10 @@ app.use(cors(corsOptions));
 app.use("/api", router);
 app.use(errorHandlerMiddleware);
 app.use("/profile", express.static("upload/images"));
+app.use("/", (req, res) => {
+  res.json({
+    message: "Hi!",
+    success: true,
+  });
+});
 app.listen(port, () => console.log(`Server is running in port : ${port}`));

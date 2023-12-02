@@ -51,7 +51,9 @@ const addProfilePhoto = async (req, res) => {
   const updatedUser = await user.findByIdAndUpdate(
     id,
     {
-      image: `http://localhost:3001/profile/${req.file.filename}`,
+      image: `${req.protocol}://${req.get("host")}/profile/${
+        req.file.filename
+      }`,
     },
     { new: true }
   );
@@ -64,9 +66,12 @@ const addProfilePhoto = async (req, res) => {
 
 const deleteProfilPhoto = async (req, res) => {
   const { image } = req.body;
-
   const { id } = req.params;
-  const updatedUser = await user.updateOne({}, { $unset: { image: null } });
+  const updatedUser = await user.findByIdAndUpdate(
+    id,
+    { image: "" },
+    { new: true }
+  );
   if (!updatedUser) {
     throw new APIError("User is not found", 400);
   }
