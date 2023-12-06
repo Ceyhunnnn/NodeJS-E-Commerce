@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const settingsSchema = new mongoose.Schema(
+const staticSchema = new mongoose.Schema(
   {
     contact: {
       phone: {
@@ -21,8 +21,8 @@ const settingsSchema = new mongoose.Schema(
       },
     },
   },
-  { collection: "settings", timestamps: true }
+  { collection: "static", timestamps: true }
 );
 
-const settings = mongoose.model("settings", settingsSchema);
-module.exports = settings;
+const static = mongoose.model("static", staticSchema);
+module.exports = static;

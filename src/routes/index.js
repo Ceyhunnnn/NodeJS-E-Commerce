@@ -1,9 +1,11 @@
 const router = require("express").Router();
 const auth = require("./authRoutes");
 const contactMail = require("./contactMailRoutes");
-const settings = require("./settingsRoutes");
+const static = require("./staticRoutes");
+const products = require("./productsRoutes");
 router.use(auth);
 router.use(contactMail);
-router.use(settings);
+router.use(static);
+router.use(products);
 
 module.exports = router;

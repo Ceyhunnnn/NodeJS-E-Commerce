@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    registerDate: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { collection: "users", timestamps: true }
 );
