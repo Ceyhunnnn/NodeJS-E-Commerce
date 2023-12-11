@@ -1,16 +1,17 @@
 const mongoose = require("mongoose");
+const ObjectID = mongoose.Schema.Types.ObjectId;
 
 const productSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
     description: { type: String, required: true, trim: true },
     cover_photo: { type: String },
-    category: { type: String },
     price: { type: Number, default: 0 },
     stock: { type: Number, default: 15 },
     discount: { type: Number, default: 0 },
-    colors: { type: Array, default: ["blue", "red"] },
+    colors: { type: Array, default: ["blue", "red", "black"] },
     photos: { type: Array },
+    categoryId: { type: ObjectID, ref: "categories" },
   },
   { collection: "products", timestamps: true }
 );
