@@ -14,9 +14,17 @@ const createProduct = async (req, res) => {
     .catch(() => new APIError("Product not be created", 400));
 };
 
-const getAllProducts = async (req, res) => {
-  const productData = await product.find();
+const getCategoryProducts = async (req, res) => {
+  const { id } = req.body;
+  const productData = await product.find({ categoryId: id });
   new Response(productData, "Product Data").success(res);
 };
 
-module.exports = { createProduct, getAllProducts };
+const getDiscountProducts = async (req, res) => {
+  const discount = await product.find({ discount: { $gt: 0 } });
+  if (discount) {
+    new Response(discount, "Discount Products").success(res);
+  }
+};
+
+module.exports = { createProduct, getCategoryProducts, getDiscountProducts };

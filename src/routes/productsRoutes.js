@@ -1,9 +1,11 @@
 const router = require("express").Router();
 const {
   createProduct,
-  getAllProducts,
+  getCategoryProducts,
+  getDiscountProducts,
 } = require("../controllers/productsControllers");
 router.post("/products", createProduct);
-router.get("/products", getAllProducts);
+router.post("/getProducts", getCategoryProducts);
+router.get("/getDiscountProducts", getDiscountProducts);
 
 module.exports = router;
