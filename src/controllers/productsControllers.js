@@ -27,4 +27,20 @@ const getDiscountProducts = async (req, res) => {
   }
 };
 
-module.exports = { createProduct, getCategoryProducts, getDiscountProducts };
+const getAllProducts = async (req, res) => {
+  const { page } = req.body;
+  const productsPerPage = 4;
+  const allProducts = await product
+    .find()
+    .skip(page * productsPerPage)
+    .limit(productsPerPage);
+  if (allProducts) {
+    new Response(allProducts, "All Prodcuts").success(res);
+  }
+};
+module.exports = {
+  createProduct,
+  getCategoryProducts,
+  getDiscountProducts,
+  getAllProducts,
+};
