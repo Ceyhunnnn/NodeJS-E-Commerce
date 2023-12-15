@@ -9,7 +9,14 @@ const productSchema = new mongoose.Schema(
     price: { type: Number, default: 0 },
     stock: { type: Number, default: 15 },
     discount: { type: Number, default: 0 },
-    colors: { type: Array, default: ["blue", "red", "black"] },
+    colors: {
+      type: Array,
+      default: [
+        { name: "blue", id: "blu" },
+        { name: "red", id: "re" },
+        { name: "black", id: "blac" },
+      ],
+    },
     photos: { type: Array },
     categoryId: { type: ObjectID, ref: "categories" },
   },
