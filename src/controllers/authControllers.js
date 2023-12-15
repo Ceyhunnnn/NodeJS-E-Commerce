@@ -82,6 +82,13 @@ const deleteProfilPhoto = async (req, res) => {
   });
   return new Response("", "Profile Photo deleted").success(res);
 };
+
+const deleteAccount = async (req, res) => {
+  const { id } = req.body;
+  const query = { _id: id };
+  const deletedUser = await user.deleteOne(query);
+  if (deletedUser.deletedCount) new Response(null, true).success(res);
+};
 module.exports = {
   register,
   login,
@@ -89,4 +96,5 @@ module.exports = {
   editProfile,
   addProfilePhoto,
   deleteProfilPhoto,
+  deleteAccount,
 };
