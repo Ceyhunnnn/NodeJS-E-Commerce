@@ -38,9 +38,19 @@ const getAllProducts = async (req, res) => {
     new Response(allProducts, "All Prodcuts").success(res);
   }
 };
+const getProductDetail = async (req, res) => {
+  const { id } = req.params;
+  const detailProduct = await product.findById(id);
+  if (detailProduct) {
+    new Response(detailProduct, "Product Detail").success(res);
+  } else {
+    new APIError("Product Not Found", 400);
+  }
+};
 module.exports = {
   createProduct,
   getCategoryProducts,
   getDiscountProducts,
   getAllProducts,
+  getProductDetail,
 };
