@@ -13,20 +13,17 @@ const createProduct = async (req, res) => {
     .then(() => new Response(null, "Product Created!").created(res))
     .catch(() => new APIError("Product not be created", 400));
 };
-
 const getCategoryProducts = async (req, res) => {
   const { id } = req.body;
   const productData = await product.find({ categoryId: id });
   new Response(productData, "Product Data").success(res);
 };
-
 const getDiscountProducts = async (req, res) => {
   const discount = await product.find({ discount: { $gt: 0 } });
   if (discount) {
     new Response(discount, "Discount Products").success(res);
   }
 };
-
 const getAllProducts = async (req, res) => {
   const { page } = req.body;
   const productsPerPage = 4;

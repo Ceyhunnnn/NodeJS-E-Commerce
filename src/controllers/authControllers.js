@@ -23,6 +23,9 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   const loginUser = await user.findOne({ email });
+  if (!loginUser.isActive) {
+    throw new APIError("No such user found", 400);
+  }
   if (!loginUser) {
     throw new APIError("Email or password wrong, please Please try again", 401);
   }
@@ -85,9 +88,9 @@ const deleteProfilPhoto = async (req, res) => {
 
 const deleteAccount = async (req, res) => {
   const { id } = req.body;
-  const query = { _id: id };
-  const deletedUser = await user.deleteOne(query);
-  if (deletedUser.deletedCount) new Response(null, true).success(res);
+  const query = { isActive: false };
+  const blocUser = await user.findByIdAndUpdate(id, query);
+  if (blocUser) new Response(null, true).success(res);
 };
 module.exports = {
   register,
