@@ -86,7 +86,7 @@ const deleteProfilPhoto = async (req, res) => {
   return new Response("", "Profile Photo deleted").success(res);
 };
 
-const deleteAccount = async (req, res) => {
+const deactiveAccount = async (req, res) => {
   const { id } = req.body;
   const query = { isActive: false };
   const blocUser = await user.findByIdAndUpdate(id, query);
@@ -99,5 +99,5 @@ module.exports = {
   editProfile,
   addProfilePhoto,
   deleteProfilPhoto,
-  deleteAccount,
+  deactiveAccount,
 };
