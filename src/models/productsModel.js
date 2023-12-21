@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema(
     name: { type: String, required: true, trim: true },
     description: { type: String, required: true, trim: true },
     cover_photo: { type: String },
-    price: { type: Number, default: 0 },
+    price: { type: Number, default: 1 },
     stock: { type: Number, default: 15 },
     discount: { type: Number, default: 0 },
     colors: {
@@ -19,6 +19,7 @@ const productSchema = new mongoose.Schema(
     },
     photos: { type: Array },
     categoryId: { type: ObjectID, ref: "categories" },
+    quantity: { type: Number, default: 1 },
   },
   { collection: "products", timestamps: true }
 );
