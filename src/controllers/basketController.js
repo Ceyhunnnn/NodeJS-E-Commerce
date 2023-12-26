@@ -46,10 +46,21 @@ const deleteBasketItem = async (req, res) => {
   );
   new Response(null, "User basket item deleted").success(res);
 };
+const addItemToBasket = async (req, res) => {
+  const { item, userId } = req.body;
+  const basketData = await basket.find({ userId: userId });
+  const addedData = [...basketData[0].basketList, item];
+  await basket.findByIdAndUpdate(
+    { _id: basketData[0]._id },
+    { basketList: addedData }
+  );
+  new Response(null, "Added new product to basket").success(res);
+};
 
 module.exports = {
   createBasket,
   getUserBasket,
   updateBasket,
   deleteBasketItem,
+  addItemToBasket,
 };
