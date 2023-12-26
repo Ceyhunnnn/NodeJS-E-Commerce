@@ -15,6 +15,8 @@ const getUserBasket = async (req, res) => {
   const userBasket = await basket.find({ userId: id });
   if (userBasket) {
     new Response(userBasket, "User basket data sent").success(res);
+  } else {
+    new Response(null, "User basket not found").success(res);
   }
 };
 const updateBasket = async (req, res) => {
