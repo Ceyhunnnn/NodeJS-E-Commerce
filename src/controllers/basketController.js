@@ -28,13 +28,28 @@ const updateBasket = async (req, res) => {
       !userBasket[0].basketList.some((item) => item._id === updatedItem._id)
   );
   const lastItems = userBasket[0].basketList.concat(missingItemsFromAPI);
-  const result = await basket.findByIdAndUpdate(
+  await basket.findByIdAndUpdate(
     { _id: userBasket[0]._id },
     { basketList: lastItems }
   );
-  if (result.basketList.length) {
-    new Response(null, "User basket updated").success(res);
-  }
+  new Response(null, "User basket updated").success(res);
+};
+const deleteBasketItem = async (req, res) => {
+  const { userId, deleteItem } = req.body;
+  const userBasketData = await basket.find({ userId: userId });
+  const lastBasketData = userBasketData[0].basketList.filter(
+    (item) => item._id !== deleteItem._id
+  );
+  await basket.findByIdAndUpdate(
+    { _id: userBasketData[0]._id },
+    { basketList: lastBasketData }
+  );
+  new Response(null, "User basket item deleted").success(res);
 };
 
-module.exports = { createBasket, getUserBasket, updateBasket };
+module.exports = {
+  createBasket,
+  getUserBasket,
+  updateBasket,
+  deleteBasketItem,
+};
