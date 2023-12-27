@@ -1,6 +1,8 @@
 const basket = require("../models/basketModel");
+const product = require("../models/productsModel");
 const APIError = require("../utils/error");
 const Response = require("../utils/response");
+const Order = require("../models/orderModel");
 const createBasket = async (req, res) => {
   const createdBasket = new basket(req.body);
   createdBasket
@@ -56,6 +58,36 @@ const addItemToBasket = async (req, res) => {
   );
   new Response(null, "Added new product to basket").success(res);
 };
+const createOrder = async (req, res) => {
+  const { userId, orderList } = req.body;
+  try {
+    const calculatedBuyCountData = orderList.map((element) => {
+      const item = Object.assign(element, {
+        buyCount: element.quantity / element.price,
+      });
+      return item;
+    });
+    const allProductList = await product.find();
+    allProductList.map(async (allProductItem) => {
+      calculatedBuyCountData.map(async (calcProductItem) => {
+        if (allProductItem._id.equals(calcProductItem._id)) {
+          allProductItem.stock =
+            allProductItem.stock - calcProductItem.buyCount;
+          await product.findByIdAndUpdate(allProductItem._id, {
+            stock: allProductItem.stock,
+          });
+        }
+      });
+    });
+    const createdOrder = new Order(req.body);
+    createdOrder
+      .save()
+      .then((response) => new Response(null, "Order created!").created(res))
+      .catch((err) => console.log(err));
+  } catch (error) {
+    throw new APIError("Order not created", 400);
+  }
+};
 
 module.exports = {
   createBasket,
@@ -63,4 +95,5 @@ module.exports = {
   updateBasket,
   deleteBasketItem,
   addItemToBasket,
+  createOrder,
 };
