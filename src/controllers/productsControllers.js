@@ -15,11 +15,14 @@ const createProduct = async (req, res) => {
 };
 const getCategoryProducts = async (req, res) => {
   const { id } = req.body;
-  const productData = await product.find({ categoryId: id });
+  const productData = await product.find({ categoryId: id, stock: { $gt: 0 } });
   new Response(productData, "Product Data").success(res);
 };
 const getDiscountProducts = async (req, res) => {
-  const discount = await product.find({ discount: { $gt: 0 } });
+  const discount = await product.find({
+    discount: { $gt: 0 },
+    stock: { $gt: 0 },
+  });
   if (discount) {
     new Response(discount, "Discount Products").success(res);
   }
