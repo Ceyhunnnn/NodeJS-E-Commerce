@@ -59,7 +59,7 @@ const addItemToBasket = async (req, res) => {
   new Response(null, "Added new product to basket").success(res);
 };
 const createOrder = async (req, res) => {
-  const { userId, orderList } = req.body;
+  const { userId, orderList, basketListId } = req.body;
   try {
     const calculatedBuyCountData = orderList.map((element) => {
       const item = Object.assign(element, {
@@ -79,10 +79,14 @@ const createOrder = async (req, res) => {
         }
       });
     });
+
     const createdOrder = new Order(req.body);
     createdOrder
       .save()
-      .then((response) => new Response(null, "Order created!").created(res))
+      .then(async (response) => {
+        await basket.findByIdAndUpdate(basketListId, { basketList: [] });
+        new Response(null, "Order created!").created(res);
+      })
       .catch((err) => console.log(err));
   } catch (error) {
     throw new APIError("Order not created", 400);
