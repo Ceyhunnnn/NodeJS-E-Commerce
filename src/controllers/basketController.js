@@ -51,11 +51,16 @@ const deleteBasketItem = async (req, res) => {
 const addItemToBasket = async (req, res) => {
   const { item, userId } = req.body;
   const basketData = await basket.find({ userId: userId });
-  const addedData = [...basketData[0].basketList, item];
-  await basket.findByIdAndUpdate(
-    { _id: basketData[0]._id },
-    { basketList: addedData }
-  );
+  if (basketData.length > 0) {
+    const addedData = [...basketData[0].basketList, item];
+    await basket.findByIdAndUpdate(
+      { _id: basketData[0]._id },
+      { basketList: addedData }
+    );
+  } else {
+    req.body.basketList = [item];
+    await createBasket(req, res);
+  }
   new Response(null, "Added new product to basket").success(res);
 };
 const createOrder = async (req, res) => {
@@ -92,6 +97,13 @@ const createOrder = async (req, res) => {
     throw new APIError("Order not created", 400);
   }
 };
+const getUserOrderList = async (req, res) => {
+  const { userId } = req.body;
+  const orderList = await Order.find({ userId });
+  if (orderList.length > 0) {
+    new Response(data, "data success").success(res);
+  }
+};
 
 module.exports = {
   createBasket,
@@ -100,4 +112,5 @@ module.exports = {
   deleteBasketItem,
   addItemToBasket,
   createOrder,
+  getUserOrderList,
 };
