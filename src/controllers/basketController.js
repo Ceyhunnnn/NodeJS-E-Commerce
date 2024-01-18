@@ -101,7 +101,7 @@ const getUserOrderList = async (req, res) => {
   const { userId } = req.body;
   const orderList = await Order.find({ userId });
   if (orderList.length > 0) {
-    new Response(data, "data success").success(res);
+    new Response(orderList, "data success").success(res);
   }
 };
 
