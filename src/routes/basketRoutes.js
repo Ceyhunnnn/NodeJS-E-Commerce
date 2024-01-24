@@ -14,5 +14,5 @@ router.patch("/updateBasket/:id", updateBasket);
 router.delete("/deleteBasketItem", deleteBasketItem);
 router.post("/addItemToBasket", addItemToBasket);
 router.post("/createOrder", createOrder);
-router.get("/getOrder", getUserOrderList);
+router.post("/getOrder", getUserOrderList);
 module.exports = router;
