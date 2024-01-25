@@ -25,7 +25,7 @@ const getDiscountProducts = async (req, res) => {
   });
   const updatedDiscounts = discount.map((obj) => {
     const quantity = obj.price - (obj.price * obj.discount) / 100;
-    return { ...obj._doc, quantity };
+    return { ...obj._doc, quantity }; // _doc kullanılarak Mongoose belgesinden plain JavaScript objesine çevrilir
   });
 
   if (updatedDiscounts) {
