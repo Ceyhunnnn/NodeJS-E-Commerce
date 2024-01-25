@@ -23,8 +23,13 @@ const getDiscountProducts = async (req, res) => {
     discount: { $gt: 0 },
     stock: { $gt: 0 },
   });
-  if (discount) {
-    new Response(discount, "Discount Products").success(res);
+  const updatedDiscounts = discount.map((obj) => {
+    const quantity = obj.price - (obj.price * obj.discount) / 100;
+    return { ...obj._doc, quantity };
+  });
+
+  if (updatedDiscounts) {
+    new Response(updatedDiscounts, "Discount Products").success(res);
   }
 };
 const getAllProducts = async (req, res) => {
