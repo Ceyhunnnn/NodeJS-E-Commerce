@@ -3,6 +3,8 @@ const APIError = require("../utils/error");
 const Response = require("../utils/response");
 const bcrypt = require("bcrypt");
 const { createToken } = require("../middlewares/auth");
+const jwt = require("jsonwebtoken");
+
 var fs = require("fs");
 const register = async (req, res) => {
   const { email } = req.body;
@@ -92,6 +94,16 @@ const deactiveAccount = async (req, res) => {
   const blocUser = await user.findByIdAndUpdate(id, query);
   if (blocUser) new Response(null, true).success(res);
 };
+const checkTokenForApp = async (req, res) => {
+  const token = req.headers.authorization.split(" ")[1];
+  await jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
+    if (!err) {
+      new Response(null, true).success(res);
+    } else {
+      new Response(null, false).success(res);
+    }
+  });
+};
 module.exports = {
   register,
   login,
@@ -100,4 +112,5 @@ module.exports = {
   addProfilePhoto,
   deleteProfilPhoto,
   deactiveAccount,
+  checkTokenForApp,
 };

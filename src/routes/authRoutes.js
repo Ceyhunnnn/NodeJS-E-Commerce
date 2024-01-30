@@ -7,6 +7,7 @@ const {
   addProfilePhoto,
   deleteProfilPhoto,
   deactiveAccount,
+  checkTokenForApp,
 } = require("../controllers/authControllers");
 const { checkToken } = require("../middlewares/auth");
 const { upload } = require("../middlewares/uploadPhoto");
@@ -17,5 +18,6 @@ router.get("/me", checkToken, me);
 router.post("/profilePhoto/:id", upload.single("profile"), addProfilePhoto);
 router.delete("/profilePhoto/:id", deleteProfilPhoto);
 router.post("/deactiveAccount", deactiveAccount);
+router.get("/checkToken", checkTokenForApp);
 
 module.exports = router;
